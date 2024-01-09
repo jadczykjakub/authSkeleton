@@ -13,6 +13,7 @@ export const useLogin = () => {
     const response = await fetch("http://localhost:8000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -25,7 +26,7 @@ export const useLogin = () => {
 
     if (response.ok) {
       // tutaj cookies?
-
+      console.log("okej");
       // dispatch({ type: "LOGIN", payload: json });
 
       setIsLoading(false);

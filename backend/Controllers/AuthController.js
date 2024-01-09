@@ -22,7 +22,7 @@ export const registerUser = async (req, res) => {
 };
 
 const createToken = (email) => {
-  console.log(process.env.SECRET_KEY);
+  console.log(process.env.SECRET_KEY, "--------------->");
 
   // @ts-ignore
   return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: 100000 });
@@ -37,11 +37,14 @@ export const loginUser = async (req, res) => {
 
     const token = createToken(req.body.email);
 
+    console.log(token);
+
     res.cookie("jwt", token, {
       httpOnly: false,
+      path: "/"
     });
 
-    return res.status(200).send({ email: req.body.email, token });
+    return res.status(200).send({ email: req.body.email });
   } catch (err) {
     res.status(500).send({ response: err.message });
   }
