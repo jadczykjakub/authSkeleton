@@ -25,7 +25,7 @@ const createToken = (email) => {
   console.log(process.env.SECRET_KEY, "--------------->");
 
   // @ts-ignore
-  return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: 100000 });
+  return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: 30 });
 };
 
 export const loginUser = async (req, res) => {
