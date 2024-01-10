@@ -9,21 +9,16 @@ import Home from "./pages/Home.js";
 import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
 import useAuthContext from "./hooks/useAuthContext.js";
+import NavBar from './Layout/NavBar.js';
 
 function App() {
   const { user } = useAuthContext();
 
-  // const user = false;
-
-  // const router = createBrowserRouter([
-  //   { path: "/", element: user ? <Home /> : <Navigate to="/login" /> },
-  //   { path: "/login", element: user ? <Login /> : <Navigate to="/" /> },
-  //   { path: "/user", element: user ? <Register /> : <Navigate to="/" /> },
-  // ]);
   return (
     <div className="App">
-      {/* <RouterProvider router={router} /> */}
       <BrowserRouter>
+      <NavBar />
+
         <div className="pages">
           <Routes>
             <Route
@@ -40,7 +35,7 @@ function App() {
             />
           </Routes>
         </div>
-      </BrowserRouter>
+      </BrowserRouter> 
     </div>
   );
 }

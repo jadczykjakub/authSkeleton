@@ -6,11 +6,11 @@ import cookieParser from "cookie-parser";
 import routes from "./routes/routes.js";
 
 const app = express();
-config();
 
 app.use(cookieParser());
 
 app.use(express.json());
+config();
 
 const corsOptions = {
   origin: "http://localhost:3000",

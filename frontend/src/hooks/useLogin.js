@@ -1,18 +1,20 @@
 import { useState } from "react";
 import useAuthContext from "./useAuthContext.js";
 import { useCookies } from "react-cookie";
-import { jwtDecode } from "jwt-decode";
+import {useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
   const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
+  const navigate = useNavigate();
 
   const login = async (email, password) => {
     const response = await fetch("http://localhost:8000/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: 'include',
       body: JSON.stringify({ email, password }),
     });
 
@@ -24,11 +26,9 @@ export const useLogin = () => {
     }
 
     if (response.ok) {
-      // tutaj cookies?
-
-      // dispatch({ type: "LOGIN", payload: json });
-
       setIsLoading(false);
+      return navigate("/");
+
     }
   };
 
