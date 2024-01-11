@@ -1,31 +1,32 @@
-import React, {useState} from 'react';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useRegister = () => {
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(null)
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
+  const navigate = useNavigate();
 
-    const register = async (email, password) => {
-        setIsLoading(true)
-        setError(null)
+  const register = async (email, password) => {
+    setIsLoading(true);
+    setError(null);
 
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ email, password })
-          })
-          const json = await response.json()
-          
-          if (!response.ok) {
-            setIsLoading(false)
-            setError(json.error)
-          }
+    const response = await fetch("http://localhost:8000/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const json = await response.json();
 
-          if (response.ok) {
-            setIsLoading(false)
-          }
-
-
+    if (!response.ok) {
+      setIsLoading(false);
+      setError(json.error);
     }
 
-    return {register, isLoading, error}
-}
+    if (response.ok) {
+      setIsLoading(false);
+      return navigate("/");
+    }
+  };
+
+  return { register, isLoading, error };
+};

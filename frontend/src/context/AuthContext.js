@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { jwtDecode } from "jwt-decode";
 
-// @ts-ignore
 export const AuthContext = createContext();
 
 export const authReducer = (state, action) => {
@@ -21,18 +20,16 @@ export const AuthContextProvider = ({ children }) => {
     user: null,
   });
 
-  const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
+  const [cookies] = useCookies(["jwt"]);
 
   useEffect(() => {
     if (cookies.jwt) {
       const token = jwtDecode(cookies.jwt);
 
-      if(token.exp * 1000 > Date.now()){
-        
+      if (token.exp * 1000 > Date.now()) {
         dispatch({ type: "LOGIN", payload: token.email });
-
-      }else{
-        dispatch({ type: "LOGOUT"});
+      } else {
+        dispatch({ type: "LOGOUT" });
       }
     }
 
@@ -40,8 +37,6 @@ export const AuthContextProvider = ({ children }) => {
       dispatch({ type: "LOGIN", payload: null });
     }
   }, []);
-
-  console.log("AuthContext state:", state);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

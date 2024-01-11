@@ -22,26 +22,20 @@ export const registerUser = async (req, res) => {
 };
 
 const createToken = (email) => {
-  console.log(process.env.SECRET_KEY, "--------------->");
-
-  // @ts-ignore
   return jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: 30 });
 };
 
 export const loginUser = async (req, res) => {
   try {
-    // @ts-ignore
     const user = await User.loginUser(req.body.email, req.body.password);
 
     if (!user) res.status(404).send("User or password not correct");
 
     const token = createToken(req.body.email);
 
-    console.log(token);
-
     res.cookie("jwt", token, {
       httpOnly: false,
-      path: "/"
+      path: "/",
     });
 
     return res.status(200).send({ email: req.body.email });
