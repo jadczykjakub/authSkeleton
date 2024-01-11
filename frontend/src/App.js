@@ -10,6 +10,7 @@ import Login from "./pages/Login.js";
 import Register from "./pages/Register.js";
 import useAuthContext from "./hooks/useAuthContext.js";
 import NavBar from './Layout/NavBar.js';
+import { ProtectedRoute } from "./routes/ProtectedRoute.js";
 
 function App() {
   const { user } = useAuthContext();
@@ -21,18 +22,26 @@ function App() {
 
         <div className="pages">
           <Routes>
-            <Route
-              path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
-            />
+ 
             <Route
               path="/login"
-              element={!user ? <Login /> : <Navigate to="/" />}
+              element={<Login />}
             />
             <Route
               path="/register"
-              element={!user ? <Register /> : <Navigate to="/" />}
+              element={<Register />}
             />
+            <Route
+              path="/"
+              element={<ProtectedRoute/>}
+            >
+              <Route path="/" element={<Home />} />
+            </Route>
+
+            {/* <Route
+              path="/"
+              element={user ? <Home /> : <Navigate to="/login" />}
+            /> */}
           </Routes>
         </div>
       </BrowserRouter> 

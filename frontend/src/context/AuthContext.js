@@ -24,12 +24,16 @@ export const AuthContextProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["jwt"]);
 
   useEffect(() => {
-    console.log("elooo");
-    console.log(cookies);
-    if (cookies?.jwt) {
+    if (cookies.jwt) {
       const token = jwtDecode(cookies.jwt);
-      console.log(token);
-      dispatch({ type: "LOGIN", payload: token.email });
+
+      if(token.exp * 1000 > Date.now()){
+        
+        dispatch({ type: "LOGIN", payload: token.email });
+
+      }else{
+        dispatch({ type: "LOGOUT"});
+      }
     }
 
     if (!cookies.jwt) {
